@@ -1,32 +1,26 @@
-# Field briefing — UNKNOWN FILES
+#GIG BRIEFING — UNKNOWN DATA
 
-**ARASAKA, 04:17.** Cai Rook, host of the underground radio station Linha de Maré, received
-the identifier for a Vesper Arc operator account. The password was not included; all that
-is known is that it is a short numeric PIN. The same network contains public files, a
-dispatch the Directorate tried to hide, and a remote maintenance channel.
+# ARASAKA SUBNET, 04:17.
+Wake up, choom. Some underground netrunner just tossed us a bone: an operator account ID straight from Arasaka's servers. The suits didn't leave the password lying around, but we know it's just a short numeric PIN. Pure corpo arrogance. That same network is bleeding public files, a dispatch the Board tried to sweep under the rug, and a remote maintenance channel.
 
-Your team has been hired to recover five flags and discover where Alt Cunningham was transferred.
+I don't give a shit about whatever fixer is tossing you eddies to collect these five data "flags." We're here for one reason and one reason only: to find out which dark corner of the Net those Arasaka bastards dragged Alt into.
 
-## Rules
+## The Ground Rules
 
-- Authorized target: only the CTF instance designated by the organizers.
-- The SSH service published on port `2222` belongs to the disposable challenge container;
-  do not access other hosts or services.
-- Do not use these procedures against real systems or outside the authorized period.
-- Record all five flags and minimal evidence in the submission form.
-- Do not publish flags, credentials, or solutions before the debrief.
+Listen up, unless you want your synapses fried by NetWatch in the middle of the gig:
+* Authorized Targets Only: Focus only on the specific CTF instance designated for this run. Don't go blasting ICE blindly.
+* The SSH service on port 2222 is our disposable container. Don't go knocking on other hosts or services unless you want Arasaka's cyber-ninjas knocking on your meat body.
+* Keep your toys in check. Don't use these exploits on live systems outside the authorized window.
+* Log all five flags and the minimum required evidence in the extraction form. The client wants proof.
+* Zip it. No leaking flags, credentials, or strats to the BBS before the gig is officially over.
 
-## Objectives
+## Your Objectives
+1. Crack the facade: Identify the web service paths the corpos scrubbed from the main interface. Grab the intel we need to keep digging.
+2. Smash the PIN: Crack the six-digit PIN from the hash dumped in a public file. Jack into the operator account and rip the first flag.
+3. Dig through corpo trash: Recover Alt's restricted dispatch from Arasaka's files. They tried to zero it; we're bringing it back from the dead.
+4. Breach the Boardroom: Infiltrate the Directorate's restricted zone, klep the maintenance credentials, and head straight for the SSH backdoor.
+5. Dive deeper: Use your deck's network tools and the SSH client to fish out the fourth flag, which is trapped in that isolated maintenance environment.
+6. Take control: Check the SSH account's sudo perms. Use the text editor installed there to escalate privileges, crack the root-owned file, and steal the final flag.
+7. All the flags you pull will look like `FLAG{...}`. The public shard for this gig has zero technical hints, so you're flying entirely blind.
 
-1. Identify web service paths that are not shown in the interface and record the
-   information needed to proceed.
-2. Recover the six-digit PIN from the hash in a public file, sign in to the operator
-   account, and record the first flag.
-3. Recover Nara's restricted dispatch from Vesper Arc's files.
-4. Reach the Directorate area, recover the maintenance credentials, and continue to SSH.
-5. Use network tools and the SSH client to recover the fourth flag in the isolated
-   maintenance environment.
-6. Inspect the SSH account's sudo permission and use the installed editor to reach the
-   final flag in the root-owned file.
-
-All flags use the `FLAG{...}` format. The public challenge card contains no technical hints.
+Jack in, choom. Let's burn this subnet down and find Alt.
