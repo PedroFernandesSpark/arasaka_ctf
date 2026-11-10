@@ -32,10 +32,10 @@ export default function Profile() {
         <Link className="wordmark" to="/notes">
           <img
             className="wordmark-logo"
-            src="/images/vesper-arc-logo.png"
-            alt="Vesper Arc"
+            src="/images/arasaka-logo.png"
+            alt="ARASAKA"
           />{" "}
-          <span className="wordmark-divider">//</span> UNKNOWN FILES
+          <span className="wordmark-divider">//</span> ARASAKA SUBNET
         </Link>
         <Link className="quiet-button link-button" to="/notes">
           ← Back to archive
@@ -49,7 +49,7 @@ export default function Profile() {
         <div className="profile-identity">
           <img
             className="profile-avatar"
-            src="/images/nara-venn-portrait.jpg"
+            src="/images/alt-cunningham-portrait.jpg"
             alt="Original illustrated portrait of Alt Cunningham."
           />
           <div>
@@ -81,7 +81,7 @@ export default function Profile() {
         </div>
       </section>
       <footer className="page-footer">
-        <span>Vesper Arc / ARASAKA</span>
+        <span>ARASAKA // Personnel records</span>
         <span>Canal monitorado.</span>
       </footer>
     </main>

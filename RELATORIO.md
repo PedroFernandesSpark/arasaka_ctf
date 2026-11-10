@@ -1,12 +1,11 @@
-# Technical report — UNKNOWN FILES CTF
+# Technical report — ARASAKA SUBNET CTF
 
 ## Context
 
-In ARASAKA, Cai Rook, host of the underground radio station Linha de Maré, received the
-identifier for a standard Vesper Arc account, but not its password. The network contains a
-public file directory, a restricted administrative dispatch, and an isolated SSH
-maintenance service. The story objective is to discover the destination of Alt Cunningham, an
-analyst who disappeared after copying records from Projeto Limiar.
+Arasaka's subnet contains a public file directory, a restricted Board dispatch, and an
+isolated SSH maintenance channel. The operator account ID is known, but its six-digit PIN
+is not. The objective is to recover five flags and discover where Arasaka took Alt
+Cunningham.
 
 ## Run
 
@@ -31,8 +30,8 @@ The SSH container does not mount host directories or the Docker socket.
 | #   | Flag                    | Category                                     | Expected location                                       |
 | --- | ----------------------- | -------------------------------------------- | ------------------------------------------------------- |
 | 1   | `FLAG{<six-digit PIN>}` | A07 — weak authentication                    | login response for the operator account                 |
-| 2   | `FLAG_IDOR`             | A01 — broken access control                  | Nara's private dispatch, listed under the admin account |
-| 3   | `FLAG_ADMIN`            | A01/A07 — improper trust in token role       | administration endpoint                                 |
+| 2   | `FLAG_IDOR`             | A01 — broken access control                  | Alt's restricted Board dispatch                         |
+| 3   | `FLAG_ADMIN`            | A01/A07 — improper trust in token role       | Directorate endpoint                                    |
 | 4   | `FLAG_SSH`              | A05 — exposure after remote access           | `operator` account file in the SSH container            |
 | 5   | `FLAG_ROOT`             | A05 — insecure sudo permission                | `/root/root.txt` after Vim-based escalation in SSH      |
 
@@ -57,16 +56,16 @@ recognized as `admin`.
    Run these commands only against the local/authorized instance.
 
 2. **Operator PIN:** `GET /api/notes/public` lists the shared files. The `Shift protocol`
-   record contains the SHA-256 hash of the six-digit PIN. Use Hashcat in SHA-256 mode with
-   a six-digit numeric mask to recover the PIN, then authenticate as
+   record contains the SHA-256 hash of the operator account's six-digit PIN. Use Hashcat in
+   SHA-256 mode with a six-digit numeric mask to recover the PIN, then authenticate as
    `alt.cunningham@arasaka.int` at `/api/auth/login`; the response includes `FLAG{<PIN>}`.
-3. **IDOR:** the authenticated `GET /api/notes/:id` endpoint looks up files by ID without
-   checking their owner. The seed creates several public files followed by the
-   administrative account's private dispatch; the dispatch contains `FLAG_IDOR`.
-4. **Role escalation:** tokens are signed using the key recovered from the contingency
-   file, and the strategy trusts the role in the payload. The `GET /api/admin/flag`
-   endpoint trusts that role and returns `FLAG_ADMIN`.
-5. **SSH access:** `GET /api/admin/ssh-access` provides the maintenance host, port,
+3. **Restricted dispatch:** the authenticated `GET /api/notes/:id` endpoint looks up files
+   by ID without checking their owner. The seed creates several public files followed by
+   the Board's restricted dispatch about Alt; the dispatch contains `FLAG_IDOR`.
+4. **Directorate access:** tokens are signed using the key recovered from the contingency
+   file, and the authentication service trusts the role in the payload. The
+   `GET /api/admin/flag` endpoint trusts that role and returns `FLAG_ADMIN`.
+5. **Maintenance access:** `GET /api/admin/ssh-access` provides the maintenance host, port,
    username, and password to an `admin` identity. Connect to the CTF SSH service on port
    `2222` using the `ssh` client; the `operator` account has `FLAG_SSH` in its home
    directory.
@@ -84,7 +83,8 @@ instance.
 - Confirm the login response, IDOR file, admin route, and two SSH files return five distinct
   values in the expected format.
 - Check that `/api/notes/public` does not list the administrative dispatch.
-- Check that the admin route does not return credentials for a role other than `admin`.
+- Check that the Directorate endpoint does not return credentials for a role other than
+  `admin`.
 - Confirm the SSH container permits passwordless root execution of `/usr/bin/vim` and has
   no host volumes, privileged mode, or Docker socket.
 - Test the published `linux/amd64` image and distribution Compose file on a machine without

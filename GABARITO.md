@@ -1,4 +1,4 @@
-# Private answer key — UNKNOWN FILES
+# Private answer key — ARASAKA SUBNET
 
 > **Do not distribute to participants.** This file contains the solution and default lab
 > values. Use it only to verify an authorized CTF instance.
@@ -8,12 +8,12 @@
 | Item                                      | Default value                    |
 | ----------------------------------------- | -------------------------------- |
 | Local URL                                 | `http://localhost:3000`          |
-| Standard account                          | `alt.cunningham@arasaka.int`     |
-| Standard account PIN                      | `518274`                         |
+| Operator account                          | `alt.cunningham@arasaka.int`     |
+| Operator account PIN                      | `518274`                         |
 | SSH account                               | `operator`                       |
 | SSH password                              | `ArasakaArchive09`               |
 | Local SSH                                 | `localhost:2222`                 |
-| JWT signing key, discovered in the backup | `vesper-arc-ARASAKA-test-issuer` |
+| JWT signing key, discovered in the backup | `arasaka-subnet-ARASAKA-test-issuer` |
 | Sudo-enabled editor                       | `/usr/bin/vim`                   |
 
 The public `Shift protocol` record also displays the SHA-256 hash of the configured PIN.
@@ -36,7 +36,7 @@ below are project defaults; a published instance may have been built with differ
 
 ## Verification walkthrough
 
-1. **Identify the local instance.** From the Kali machine running the instance, verify
+1. **Identify the local instance.** From the machine running the instance, verify
    the published ports:
 
    ```sh
@@ -63,16 +63,16 @@ below are project defaults; a published instance may have been built with differ
    hashcat --show -m 1400 pin.hash
    ```
 
-   The recovered PIN authenticates `alt.cunningham@arasaka.int`; the login returns the
-   first flag along with the token.
+   The recovered PIN authenticates Alt Cunningham's operator account,
+   `alt.cunningham@arasaka.int`; the login returns the first flag along with the token.
 
-4. **Verify the IDOR.** Using the standard account session, query the records by ID. The
-   seed creates five public records first; the administrative private dispatch is ID `6`.
-   Its contents include the second flag.
-5. **Verify role escalation.** The token for `alt.cunningham@arasaka.int` uses `sub: 1`.
-   To reproduce this stage in the lab, use the key found in the backup and a token whose
-   role is `admin`. `GET /api/admin/flag` returns the third flag; `GET /api/admin/ssh-access`
-   returns the SSH connection details.
+4. **Verify the IDOR.** Using the operator account session, query the records by ID. The
+   seed creates five public records first; the Board's restricted dispatch about Alt is
+   ID `6`. Its contents include the second flag.
+5. **Verify role escalation.** The token for Alt Cunningham's operator account,
+   `alt.cunningham@arasaka.int`, uses `sub: 1`. To reproduce this stage in the lab, use the
+   key found in the backup and a token whose role is `admin`. `GET /api/admin/flag` returns
+   the third flag; `GET /api/admin/ssh-access` returns the maintenance SSH connection details.
 6. **Verify SSH access.** Connect only to the challenge's local SSH service on port `2222`,
    using the `operator` account and the password returned by the panel. The fourth flag is
    in `/home/operator/user.txt`:
@@ -97,9 +97,10 @@ below are project defaults; a published instance may have been built with differ
 ## Quick verification
 
 - There are five distinct flags, all in the `FLAG{...}` format.
-- The default login should return `FLAG{518274}`.
+- The default operator login should return `FLAG{518274}`.
 - `/api/backup` should respond; a nonexistent API route should return `404`.
-- Record ID `6` contains the private dispatch but must not appear in the public list.
+- Record ID `6` contains the Board's restricted dispatch but must not appear in the public
+  list.
 - The administrative account and its files are not needed to authenticate over SSH.
 - `sudo -l` should list `/usr/bin/vim` as a passwordless root command in the SSH container.
 - The fifth flag is readable from `/root/root.txt` after the intended Vim-based escalation.

@@ -6,7 +6,7 @@ export class BackupController {
   @Get()
   recoveryMemo() {
     return {
-      note: "Vesper Arc // contingency copy of the token issuer.",
+      note: "ARASAKA // contingency copy of the token issuer.",
       jwtSigningSecret: JWT_SIGNING_SECRET,
     };
   }

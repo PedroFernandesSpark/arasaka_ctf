@@ -49,10 +49,10 @@ export default function Notes() {
         <Link className="wordmark" to="/notes">
           <img
             className="wordmark-logo"
-            src="/images/vesper-arc-logo.png"
-            alt="Vesper Arc"
+            src="/images/arasaka-logo.png"
+            alt="ARASAKA"
           />{" "}
-          <span className="wordmark-divider">//</span> UNKNOWN FILES
+          <span className="wordmark-divider">//</span> ARASAKA SUBNET
         </Link>
         <div className="topbar-actions">
           <span className="connection-state">
@@ -76,10 +76,10 @@ export default function Notes() {
           alt="Panoramic view of ARASAKA, a vertical city under neon lights."
         />
         <div className="dashboard-heading">
-          <p className="eyebrow">Records terminal // sector 09</p>
-          <h1>Operations archive</h1>
+          <p className="eyebrow">Corporate subnet // sector 09</p>
+          <h1>Recovered files</h1>
           <p className="lead">
-            Records synced from ARASAKA's internal channel.
+            Public records recovered from Arasaka's internal network.
           </p>
           <Link className="text-link" to="/profile/1">
             Open operator profile <span aria-hidden="true">↗</span>
@@ -207,7 +207,7 @@ export default function Notes() {
       </section>
 
       <footer className="page-footer">
-        <span>Vesper Arc / ARASAKA</span>
+        <span>ARASAKA // Internal network</span>
         <span>Every access leaves a trace.</span>
       </footer>
     </main>

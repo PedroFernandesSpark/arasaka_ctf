@@ -32,24 +32,24 @@ function Login() {
             alt="Original illustration of ARASAKA at night, with corporate towers and neon lights."
           />
           <div className="login-art-caption">
-            <p className="eyebrow">ARASAKA // signal recovered</p>
+            <p className="eyebrow">ARASAKA // subnet connection established</p>
             <h2>
               Internal system
               <br />
               ARASAKA.
             </h2>
-            <p>Projeto Fantasma / channel 04:17</p>
+            <p>Maintenance channel // 04:17</p>
           </div>
         </section>
         <section className="terminal-card login-card">
           <img
             className="brand-logo"
-            src="/images/vesper-arc-logo.png"
-            alt="Vesper Arc — Corporate Systems, ARASAKA."
+            src="/images/arasaka-logo.png"
+            alt="ARASAKA corporate systems."
           />
           <div className="login-title">
             <p className="eyebrow">Internal network // monitored access</p>
-            <h1>UNKNOWN FILES</h1>
+            <h1>ARASAKA SUBNET</h1>
           </div>
           <p className="lead">Use the six-digit access code to login.</p>
           <label className="field-label" htmlFor="email">
@@ -60,7 +60,7 @@ function Login() {
             className="terminal-input"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="user@vesperarc.local"
+            placeholder="operator@arasaka.int"
           />
           <label className="field-label" htmlFor="password">
             Access PIN
@@ -90,7 +90,7 @@ function Login() {
         </section>
       </div>
       <p className="login-footnote">
-        Projeto Fantasma // ARASAKA // Monitored access
+        ARASAKA // Monitored access
       </p>
     </main>
   );

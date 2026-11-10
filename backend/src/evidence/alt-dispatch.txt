@@ -1,0 +1,15 @@
+FROM: Alt Cunningham
+TO: Unlisted contact
+SUBJECT: If the network goes dark
+
+If you recovered this dispatch, Arasaka has already realized I copied the Board's transfer
+order. They do not want the file back; they want every record of its destination erased.
+
+They transferred me to Anel Baixo, containment module 12 at station N-09. Cargo access is
+below the old market, through the unmarked elevator in sector 09. Wait for the maintenance
+lights to go out twice.
+
+The seal confirming you found this dispatch is {{FLAG_IDOR}}.
+Do not trust maps connected to the corporate network. Move before shift change.
+
+Alt

@@ -1,10 +1,8 @@
-# UNKNOWN FILES — Cyberpunk CTF
+# ARASAKA SUBNET — Cyberpunk CTF
 
-Vesper Arc's corporate network holds traces of Projeto Limiar. Cai Rook, host of the
-underground radio station Linha de Maré, has an operator's email address but not her
-six-digit PIN. The terminal contains several public files, a hidden administrative dispatch,
-and a maintenance access path leading to an isolated SSH service. Recover five flags and
-discover where Alt Cunningham was transferred.
+Arasaka's subnet is bleeding public files, a restricted Board dispatch, and a remote
+maintenance channel. You have the operator account ID, but not its six-digit PIN. Recover
+five flags and find out where Arasaka took Alt Cunningham.
 
 This project is an isolated academic lab with five flags in the `FLAG{...}` format.
 Do not expose it to a public network outside the agreed scope.
@@ -19,8 +17,8 @@ if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 docker compose up --build
 ```
 
-Open `http://localhost:3000`. The known email is `alt.cunningham@arasaka.int`; finding the
-PIN is the first challenge objective.
+Open `http://localhost:3000`. The operator account is
+`alt.cunningham@arasaka.int`; finding its PIN is the first challenge objective.
 
 ## Materials
 

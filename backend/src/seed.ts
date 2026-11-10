@@ -15,7 +15,7 @@ async function run() {
     throw new Error("PIN_CODE must contain exactly six digits.");
   }
   const dispatch = readFileSync(
-    join(__dirname, "evidence", "nara-to-cai.txt"),
+    join(__dirname, "evidence", "alt-dispatch.txt"),
     "utf8",
   ).replace("{{FLAG_IDOR}}", flagIdor);
 
@@ -25,24 +25,24 @@ async function run() {
   const users = ds.getRepository(User);
   const notes = ds.getRepository(Note);
 
-  // Clears and RESETS the ID sequence (operator=1, admin=2 every time).
+  // Clears and resets the ID sequence (operator=1, admin=2 every time).
   await ds.query("TRUNCATE TABLE notes, users RESTART IDENTITY CASCADE");
 
-  const alice = await users.save(
+  const operator = await users.save(
     users.create({
       email: "alt.cunningham@arasaka.int",
       password: pinCode,
       role: "user",
-      bio: "Archive operator. My shift ends when the signal drops.",
+      bio: "Arasaka operator. My shift ends when the maintenance channel goes dark.",
     }),
   );
 
   const admin = await users.save(
     users.create({
-      email: "admin@vesperarc.local",
+      email: "directorate@arasaka.int",
       password: randomUUID(),
       role: "admin",
-      bio: "Internal Security Directorate // Vesper Arc.",
+      bio: "Arasaka // Internal Security Directorate.",
     }),
   );
 
@@ -50,39 +50,39 @@ async function run() {
     notes.create({
       title: "Recovered account directory",
       content:
-        "Archive operator: alt.cunningham@arasaka.int. Cai Rook's contact confirmed the identifier, but not the access code.",
-      userId: alice.id,
+        "Arasaka operator account: alt.cunningham@arasaka.int. Account identifier recovered; access PIN remains unknown.",
+      userId: operator.id,
       accessLevel: "public",
     }),
     notes.create({
       title: "Shift protocol",
       content: `The routine access code is exactly six digits. SHA-256 for offline recovery: ${pinHash}`,
-      userId: alice.id,
+      userId: operator.id,
       accessLevel: "public",
     }),
     notes.create({
       title: "Maintenance map // sector 09",
       content:
-        "Cargo elevator: sector 09. The underground radio channel loses signal during the shift change.",
-      userId: alice.id,
+        "Cargo elevator // sector 09. The remote maintenance channel drops during shift change.",
+      userId: operator.id,
       accessLevel: "public",
     }),
     notes.create({
       title: "Security bulletin",
       content:
-        "The Directorate isolated a dispatch from Alt Cunningham. The remote portal trusts the role field in the access token.",
-      userId: alice.id,
+        "The Board ordered all records of Alt Cunningham's transfer erased. The Directorate's dispatch remains classified.",
+      userId: operator.id,
       accessLevel: "public",
     }),
     notes.create({
       title: "Pending migration // remote access",
       content:
-        "SSH access is reserved for the Directorate. Maintenance credentials are in the administration panel.",
-      userId: alice.id,
+        "Remote maintenance channel // SSH relay 2222. Contractor credentials remain active pending the next security sweep.",
+      userId: operator.id,
       accessLevel: "public",
     }),
     notes.create({
-      title: "Private dispatch // Alt Cunningham",
+      title: "Board dispatch // Alt Cunningham // RESTRICTED",
       content: dispatch,
       userId: admin.id,
       accessLevel: "private",
@@ -90,7 +90,7 @@ async function run() {
     notes.create({
       title: "Remote access procedure",
       content:
-        "SSH maintenance is reserved for the Directorate. Credentials are in the administration panel.",
+        "Directorate maintenance relay // SSH service 2222. Operator credentials are provisioned for the current shift only.",
       userId: admin.id,
       accessLevel: "private",
     }),

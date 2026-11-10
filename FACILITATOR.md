@@ -1,4 +1,4 @@
-# Instructor-only notes — UNKNOWN FILES
+# Instructor-only notes — ARASAKA SUBNET
 
 Do not distribute before the debrief.
 
@@ -6,15 +6,17 @@ Do not distribute before the debrief.
 
 1. Route enumeration under `/api/` reveals `GET /api/backup`, which is not linked in the
    interface. The contingency copy exposes the challenge's JWT signing key.
-2. The `alt.cunningham@arasaka.int` account uses a six-digit numeric PIN. Successful login
-   returns `FLAG{<PIN>}`.
-3. `GET /api/notes/public` lists the public files. The administrative dispatch, created
-   after them, is marked private and contains `FLAG_IDOR`. `GET /api/notes/:id` does not
-   verify file ownership.
+2. Alt Cunningham's operator account, `alt.cunningham@arasaka.int`, uses a six-digit
+   numeric PIN. Successful login returns `FLAG{<PIN>}`.
+3. `GET /api/notes/public` lists the public files. The Board's restricted dispatch about
+   Alt, created after them, is marked private and contains `FLAG_IDOR`.
+   `GET /api/notes/:id` does not verify file ownership.
 4. The authentication service signs JWTs with the key recovered from the backup.
-   The token role controls `GET /api/admin/flag`, which returns `FLAG_ADMIN`.
-5. `GET /api/admin/ssh-access` provides the `operator` account details. The container SSH
-   service is published on port `2222`; the home directory contains `FLAG_SSH`.
+   The token role controls access to the Directorate's restricted area:
+   `GET /api/admin/flag` returns `FLAG_ADMIN`.
+5. `GET /api/admin/ssh-access` provides the `operator` maintenance account details. The
+   container SSH service is published on port `2222`; its home directory contains
+   `FLAG_SSH`.
 6. Over SSH, `sudo -l` reveals that `operator` can run `/usr/bin/vim` as root without a
    password. This intentionally unsafe permission allows a root shell from Vim inside the
    disposable SSH container; `/root/root.txt` contains `FLAG_ROOT`.

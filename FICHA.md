@@ -1,13 +1,12 @@
-# UNKNOWN FILES
+# ARASAKA SUBNET
 
-**ARASAKA // Vesper Arc // partially recovered archive**
+**ARASAKA // restricted network // recovered gig briefing**
 
-Cai Rook, host of the underground radio station Linha de Maré, has a Vesper Arc operator's
-identifier but not her password. The network contains public files, records the corporation
-tried to hide, and an old maintenance channel. Recover the lost data and discover what
-happened to Alt Cunningham.
+The operator account ID is in your hands, but its six-digit PIN is not. Arasaka's subnet is
+leaking public files, a Board dispatch, and a remote maintenance channel. Recover five flags
+and find out where the corporation took Alt Cunningham.
 
-![Original artwork of ARASAKA, Vesper Arc's vertical city](./frontend/public/images/nacar-9-cover.jpg)
+![Original artwork for the Arasaka subnet challenge](./frontend/public/images/nacar-9-cover.jpg)
 
 **Estimated difficulty:** medium  
 **Flags:** 5, format `FLAG{...}`  
@@ -18,4 +17,4 @@ happened to Alt Cunningham.
 After replacing `your-username` with the published namespace, start it with:
 `docker compose -f docker-compose.distribution.yml up -d`.
 
-_Vesper Arc records every access. The question is: who is watching whom?_
+_Arasaka records every access. Jack in, choom._

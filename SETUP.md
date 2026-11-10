@@ -10,8 +10,8 @@ docker compose up --build
 ```
 
 The application is at `http://localhost:3000`; the isolated challenge SSH service is on port
-`2222`. The account is `alt.cunningham@arasaka.int`; the briefing does not provide its PIN.
-Set the PIN with `PIN_CODE`; it must contain exactly six digits.
+`2222`. The operator account is `alt.cunningham@arasaka.int`; the briefing does not provide
+its PIN. Set the PIN with `PIN_CODE`; it must contain exactly six digits.
 
 Press `Ctrl+C` to stop. To reset the database and files without removing images:
 
