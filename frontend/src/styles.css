@@ -1,0 +1,228 @@
+:root {
+  font-family: 'Segoe UI', 'Trebuchet MS', sans-serif;
+  color: #e8e9e7;
+  background: #090b0d;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  color-scheme: dark;
+  --surface: rgba(17, 20, 23, 0.94);
+  --surface-raised: #15191d;
+  --line: #2a3035;
+  --muted: #8b969a;
+  --accent: #e6584f;
+  --accent-soft: rgba(230, 88, 79, 0.14);
+  --cold: #8ab8b8;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(ellipse at 82% 10%, rgba(119, 43, 42, 0.16), transparent 36rem),
+    linear-gradient(rgba(141, 156, 159, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(141, 156, 159, 0.035) 1px, transparent 1px),
+    #090b0d;
+  background-size: auto, 40px 40px, 40px 40px, auto;
+}
+
+button, input, textarea { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+a { color: inherit; }
+
+.login-screen {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 28px 20px;
+}
+
+.terminal-card {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
+}
+
+.login-card {
+  width: min(100%, 470px);
+  padding: 38px;
+  border-top: 2px solid var(--accent);
+}
+
+.login-layout {
+  display: grid;
+  width: min(100%, 1120px);
+  grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr);
+  align-items: stretch;
+  gap: 18px;
+}
+
+.login-art-panel {
+  position: relative;
+  min-height: 590px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #101518;
+}
+.login-cover { position: absolute; width: 100%; height: 100%; inset: 0; object-fit: cover; }
+.login-art-panel::after {
+  position: absolute;
+  content: "";
+  inset: 35% 0 0;
+  background: linear-gradient(transparent, rgba(7, 9, 11, 0.92));
+}
+.login-art-caption { position: absolute; z-index: 1; right: 32px; bottom: 30px; left: 32px; }
+.login-art-caption h2 { margin: 0 0 12px; font-size: clamp(1.7rem, 3.2vw, 2.7rem); line-height: 1.04; }
+.login-art-caption > p:last-child { margin: 0; color: #9eaaac; font: 0.68rem 'Cascadia Code', Consolas, monospace; letter-spacing: 0.08em; text-transform: uppercase; }
+.brand-logo { display: block; width: min(100%, 260px); height: auto; margin: 0 0 26px; }
+.login-title .eyebrow { margin-bottom: 8px; }
+.login-title h1 { font-size: clamp(1.7rem, 4vw, 2.1rem); }
+
+.brand-lockup, .topbar, .topbar-actions, .section-heading, .search-row,
+.button-row, .profile-identity, .terminal-status, .page-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand-lockup { justify-content: flex-start; gap: 15px; }
+.brand-symbol {
+  display: inline-grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border: 1px solid rgba(230, 88, 79, 0.6);
+  color: var(--accent);
+  font: 500 15px 'Cascadia Code', Consolas, monospace;
+  letter-spacing: -0.08em;
+}
+.brand-symbol.small { width: 30px; height: 30px; font-size: 11px; }
+
+h1, h2, h3, p { margin-top: 0; }
+h1 { margin-bottom: 0; font-size: clamp(1.7rem, 5vw, 2.25rem); letter-spacing: -0.055em; }
+h2 { margin-bottom: 0; font-size: 1.15rem; letter-spacing: -0.035em; }
+h3 { margin-bottom: 6px; font-size: 0.98rem; }
+
+.eyebrow, .micro-label, .field-label, .connection-state, .page-footer,
+.terminal-status, .wordmark {
+  font-family: 'Cascadia Code', Consolas, monospace;
+  text-transform: uppercase;
+}
+.eyebrow { margin-bottom: 8px; color: var(--accent); font-size: 0.68rem; letter-spacing: 0.12em; }
+.micro-label { color: var(--muted); font-size: 0.65rem; letter-spacing: 0.1em; }
+.lead { margin: 20px 0 28px; color: #a9b0b1; font-size: 0.93rem; line-height: 1.65; }
+.field-label { display: block; margin: 18px 0 7px; color: #a9b0b1; font-size: 0.66rem; letter-spacing: 0.1em; }
+
+.terminal-input {
+  width: 100%;
+  min-height: 45px;
+  padding: 12px 14px;
+  border: 1px solid #333b40;
+  border-radius: 0;
+  outline: none;
+  background: #0c0f11;
+  color: #edf0ed;
+  transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+.terminal-input:focus { border-color: var(--cold); box-shadow: 0 0 0 2px rgba(138, 184, 184, 0.12); }
+.terminal-input::placeholder { color: #697478; }
+.terminal-textarea { min-height: 110px; resize: vertical; }
+
+.primary-button, .quiet-button {
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background 140ms ease, border-color 140ms ease, transform 140ms ease;
+}
+.primary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: var(--accent);
+  color: #100d0d;
+  font-weight: 700;
+}
+.primary-button:hover { background: #f06b60; transform: translateY(-1px); }
+.primary-button.compact { min-height: 40px; }
+.login-card .primary-button { width: 100%; margin-top: 22px; }
+.quiet-button { border-color: var(--line); background: transparent; color: #b6bec0; }
+.quiet-button:hover { border-color: #697478; background: rgba(255,255,255,0.035); }
+.link-button { display: inline-flex; align-items: center; text-decoration: none; }
+.error-message { margin: 14px 0 0; color: #ff8e83; font-size: 0.86rem; }
+
+.terminal-status { margin-top: 24px; padding-top: 15px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.62rem; letter-spacing: 0.06em; }
+.terminal-status span:last-child { margin-left: auto; }
+.status-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #82b99a; box-shadow: 0 0 10px rgba(130, 185, 154, 0.7); }
+.login-footnote { margin: 17px 0 0; color: #606b6e; text-align: center; font: 0.65rem 'Cascadia Code', Consolas, monospace; letter-spacing: 0.08em; text-transform: uppercase; }
+
+.app-shell { width: min(100% - 40px, 960px); margin: 0 auto; padding: 24px 0 42px; }
+.topbar { min-height: 52px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+.wordmark { display: inline-flex; align-items: center; gap: 10px; color: #d3d8d6; font-size: 0.7rem; letter-spacing: 0.08em; text-decoration: none; }
+.wordmark-logo { display: block; width: 146px; height: auto; }
+.wordmark-divider { color: var(--accent); }
+.topbar-actions { justify-content: flex-end; }
+.connection-state { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font-size: 0.61rem; letter-spacing: 0.06em; }
+
+.dashboard-heading { padding: 48px 0 30px; }
+.dashboard-banner { position: relative; min-height: 270px; margin: 30px 0 18px; overflow: hidden; border: 1px solid var(--line); background: #101518; }
+.dashboard-banner > img { position: absolute; width: 100%; height: 100%; inset: 0; object-fit: cover; }
+.dashboard-banner::after { position: absolute; content: ""; inset: 0; background: linear-gradient(90deg, rgba(8, 10, 12, 0.92), rgba(8, 10, 12, 0.64) 55%, rgba(8, 10, 12, 0.16)); }
+.dashboard-banner .dashboard-heading { position: relative; z-index: 1; max-width: 650px; padding: 40px 32px; }
+.dashboard-banner .dashboard-heading .lead { color: #c1c8c8; }
+.flag-banner { display: flex; align-items: center; margin-bottom: 18px; padding: 18px 22px; border: 1px solid rgba(230, 88, 79, 0.55); background: rgba(230, 88, 79, 0.09); }
+.flag-banner .eyebrow { margin-bottom: 7px; }
+.flag-banner strong { color: #f2c5bd; font: 500 0.95rem 'Cascadia Code', Consolas, monospace; overflow-wrap: anywhere; }
+.dashboard-heading .lead { max-width: 560px; margin: 11px 0 15px; }
+.text-link { color: var(--cold); font-size: 0.82rem; text-decoration: none; }
+.text-link:hover { color: #c1e3e1; }
+.search-card, .records-card, .compose-card, .profile-card { margin-bottom: 18px; padding: 24px; }
+.section-heading { align-items: flex-end; margin-bottom: 20px; }
+.section-heading .eyebrow { margin-bottom: 7px; }
+.search-row { align-items: stretch; }
+.search-row .terminal-input { flex: 1; }
+.record-list { margin: 0; padding: 0; list-style: none; }
+.record { display: grid; grid-template-columns: 42px 1fr; gap: 14px; padding: 17px 0; border-top: 1px solid var(--line); }
+.record-index { padding-top: 2px; color: var(--accent); font: 0.7rem 'Cascadia Code', Consolas, monospace; }
+.record h3 { color: #e6e9e7; }
+.record p { margin-bottom: 0; color: #9da7a9; font-size: 0.88rem; line-height: 1.6; overflow-wrap: anywhere; }
+.empty-state { margin: 0; padding: 18px 0 2px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.88rem; }
+.compose-card > .terminal-input { margin-bottom: 12px; }
+.page-footer { padding-top: 18px; color: #687275; font-size: 0.61rem; letter-spacing: 0.06em; }
+
+.profile-card { padding: 30px; }
+.profile-identity { justify-content: flex-start; }
+.profile-avatar { display: block; width: 84px; height: 98px; flex: 0 0 auto; border: 1px solid var(--line); object-fit: cover; object-position: center 26%; }
+.profile-identity h2 { margin: 0 0 8px; }
+.profile-divider { height: 1px; margin: 26px 0 20px; background: var(--line); }
+.profile-bio { min-height: 34px; color: #b9c1c1; line-height: 1.7; overflow-wrap: anywhere; }
+.button-row { justify-content: flex-start; margin-top: 5px; }
+
+@media (max-width: 640px) {
+  .login-layout { grid-template-columns: 1fr; gap: 12px; }
+  .login-art-panel { min-height: 230px; }
+  .login-art-caption { right: 20px; bottom: 17px; left: 20px; }
+  .login-art-caption h2 { font-size: 1.5rem; }
+  .login-card { padding: 27px 22px; }
+  .app-shell { width: min(100% - 28px, 960px); padding-top: 14px; }
+  .topbar { align-items: flex-start; }
+  .wordmark { max-width: 58%; flex-wrap: wrap; font-size: 0.59rem; }
+  .wordmark-logo { width: 118px; }
+  .topbar-actions { align-items: flex-end; flex-direction: column; gap: 10px; }
+  .connection-state { font-size: 0.55rem; }
+  .dashboard-heading { padding: 36px 0 22px; }
+  .dashboard-banner { min-height: 285px; margin-top: 20px; }
+  .dashboard-banner .dashboard-heading { padding: 30px 19px; }
+  .search-card, .records-card, .compose-card, .profile-card { padding: 18px; }
+  .search-row { align-items: stretch; flex-direction: column; }
+  .search-row .primary-button { justify-content: center; }
+  .profile-identity { align-items: flex-start; }
+  .button-row { align-items: stretch; flex-direction: column; }
+  .page-footer { align-items: flex-start; flex-direction: column; gap: 6px; }
+}

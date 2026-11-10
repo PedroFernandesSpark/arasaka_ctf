@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ctf
+      POSTGRES_PASSWORD: ctf
+      POSTGRES_DB: nacar_archive
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ctf -d nacar_archive"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  app:
+    image: ghcr.io/your-username/arquivo-fantasma:1.0
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: ctf
+      DB_PASSWORD: ctf
+      DB_NAME: nacar_archive
+      SSH_PORT: 2222
+      SSH_USERNAME: operator
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+
+  ssh:
+    image: ghcr.io/your-username/arquivo-fantasma-ssh:1.0
+    ports:
+      - "2222:22"
