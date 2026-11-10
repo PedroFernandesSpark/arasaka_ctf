@@ -11,7 +11,7 @@
 | Standard account                          | `alt.cunningham@arasaka.int`     |
 | Standard account PIN                      | `518274`                         |
 | SSH account                               | `operator`                       |
-| SSH password                              | `NacarArchive09`                 |
+| SSH password                              | `ArasakaArchive09`               |
 | Local SSH                                 | `localhost:2222`                 |
 | JWT signing key, discovered in the backup | `vesper-arc-ARASAKA-test-issuer` |
 | Sudo-enabled editor                       | `/usr/bin/vim`                   |
@@ -26,13 +26,13 @@ below are project defaults; a published instance may have been built with differ
 
 ## Default flags
 
-| Order | Flag                                | Where to verify                                     |
-| ----- | ----------------------------------- | --------------------------------------------------- |
-| 1     | `FLAG{518274}`                      | Successful login as `alt.cunningham@arasaka.int`    |
-| 2     | `FLAG{private_dispatch_n09}`        | Contents of Alt Cunningham's private dispatch       |
-| 3     | `FLAG{vesper_directorate_access}`   | Administrative flag endpoint                        |
-| 4     | `FLAG{cunningham_signal_recovered}` | `/home/operator/user.txt` over SSH                  |
-| 5     | `FLAG{project_limiar_root_backup}`  | `/root/root.txt` in the SSH container                |
+| Order | Flag                                | Where to verify                                  |
+| ----- | ----------------------------------- | ------------------------------------------------ |
+| 1     | `FLAG{518274}`                      | Successful login as `alt.cunningham@arasaka.int` |
+| 2     | `FLAG{private_dispatch_n09}`        | Contents of Alt Cunningham's private dispatch    |
+| 3     | `FLAG{arasaka_directorate_access}`  | Administrative flag endpoint                     |
+| 4     | `FLAG{cunningham_signal_recovered}` | `/home/operator/user.txt` over SSH               |
+| 5     | `FLAG{black_wall_root_backup}`      | `/root/root.txt` in the SSH container            |
 
 ## Verification walkthrough
 

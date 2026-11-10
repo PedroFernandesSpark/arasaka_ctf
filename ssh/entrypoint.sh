@@ -1,9 +1,9 @@
 #!/bin/sh
 set -eu
 
-: "${SSH_PASSWORD:=NacarArchive09}"
+: "${SSH_PASSWORD:=ArasakaArchive09}"
 : "${FLAG_SSH:=FLAG{cunningham_signal_recovered}}"
-: "${FLAG_ROOT:=FLAG{project_limiar_root_backup}}"
+: "${FLAG_ROOT:=FLAG{black_wall_root_backup}}"
 
 ssh-keygen -A
 printf '%s:%s\n' operator "${SSH_PASSWORD}" | chpasswd
