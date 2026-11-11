@@ -2,17 +2,18 @@
 
 ## Context
 
-Arasaka's subnet contains a public file directory, a restricted Board dispatch, and an
-isolated SSH maintenance channel. The operator account ID is known, but its six-digit PIN
-is not. The objective is to recover five flags and discover where Arasaka took Alt
-Cunningham.
+Arasaka's subnet contains a public file directory, private Directorate records, and an
+isolated SSH maintenance channel. Participants enumerate the frontend, brute-force the
+operator's four-digit PIN, exploit an IDOR to recover a SHA-256 credential seal, crack that
+seal to obtain the SSH password, and retrieve the final two flags from the isolated
+container.
 
-## Run
+## Run and distribution
 
 The local environment consists of PostgreSQL, a NestJS/React application, and a Debian
-container running OpenSSH. Run `docker compose up --build`; the interface is at
-`http://localhost:3000`, and the SSH container publishes `localhost:2222`. The application
-seeds the data at startup.
+container running OpenSSH. Run `docker compose up --build`; the frontend is at
+`http://localhost:3000`, and the SSH container publishes `localhost:2222`. The app seeds
+the test data at startup.
 
 The distribution Compose file uses published images only and contains no `build:` entries.
 Publish the app and SSH images for `linux/amd64` as described in [SETUP.md](./SETUP.md),
@@ -22,76 +23,78 @@ update the registry references, and run:
 docker compose -f docker-compose.distribution.yml up -d
 ```
 
-Published ports: `3000/tcp` for the application and `2222/tcp` for the CTF SSH container.
-The SSH container does not mount host directories or the Docker socket.
+Published ports are `3000/tcp` for the web app and `2222/tcp` for the isolated SSH
+container. The SSH container does not mount host directories or the Docker socket.
 
 ## Flags and vulnerabilities
 
-| #   | Flag                    | Category                                     | Expected location                                       |
-| --- | ----------------------- | -------------------------------------------- | ------------------------------------------------------- |
-| 1   | `FLAG{<six-digit PIN>}` | A07 — weak authentication                    | login response for the operator account                 |
-| 2   | `FLAG_IDOR`             | A01 — broken access control                  | Alt's restricted Board dispatch                         |
-| 3   | `FLAG_ADMIN`            | A01/A07 — improper trust in token role       | Directorate endpoint                                    |
-| 4   | `FLAG_SSH`              | A05 — exposure after remote access           | `operator` account file in the SSH container            |
-| 5   | `FLAG_ROOT`             | A05 — insecure sudo permission                | `/root/root.txt` after Vim-based escalation in SSH      |
+| # | Flag | Category | Expected location |
+| --- | --- | --- | --- |
+| 1 | `FLAG{<four-digit PIN>}` | A07 — weak authentication | Successful operator login |
+| 2 | `FLAG{<SHA-256 digest>}` | A01 — broken access control | Private dispatch at record ID 6 |
+| 3 | `FLAG{<recovered passphrase>}` | A02 — weak reusable credential | Hashcat result; same passphrase authenticates as SSH operator |
+| 4 | `FLAG_SSH` | A05 — exposure after remote access | `/home/operator/user.txt` |
+| 5 | `FLAG_ROOT` | A05 — insecure sudo permission | `/root/root.txt` after the intended Vim escalation |
 
-Customizable flags are configured through `.env.example`, except the first one, which is
-derived from `PIN_CODE`. `PIN_CODE` must contain exactly six digits. The SSH service uses
-`SSH_PASSWORD`; the administration panel returns connection details only when the token is
-recognized as `admin`.
+`PIN_CODE` sets the four-digit operator PIN. Compose's `CTF_SSH_PASSWORD` sets both the SSH
+account password and the plaintext used to generate the SHA-256 seal in record ID 6. The
+app and SSH service receive the same runtime `SSH_PASSWORD`; the default is `$4mura1`.
+The SSH account name is `operator`, distinct from Alt's email. `FLAG_SSH` and `FLAG_ROOT`
+customize the last two flags.
 
-## Reference technical walkthrough
+## Reference challenge flow
 
-1. **Route enumeration:** enumerate routes only on the authorized CTF instance, scoped to
-   `/api/`. The unlinked route `GET /api/backup` returns a contingency copy containing the
-   JWT signing key used by the challenge. Locally, the base URL is
-   `http://localhost:3000/api/`; for example:
+1. **Frontend enumeration:** the React app uses browser paths `/password`, `/login`,
+   `/notes`, and `/profile`; `/password` is an alias for the operator login screen and is
+   included in Kali's default `rockyou.txt`. The static server responds with the SPA only
+   for recognized paths and `/`, so unknown paths return `404`. Enumerate the web root:
 
    ```sh
-   nmap -sV -p 3000,2222 127.0.0.1
-   gobuster dir -u http://127.0.0.1:3000/api/ -w wordlists/nacar-api.txt -s 200,204,301,302,307,401,403
+   gobuster dir -u http://TARGET:3000/ -w /usr/share/wordlists/rockyou.txt -t 50
    ```
 
-   The server returns `404` for nonexistent API paths to avoid enumeration false positives.
-   Run these commands only against the local/authorized instance.
-
-2. **Operator PIN:** `GET /api/notes/public` lists the shared files. The `Shift protocol`
-   record contains the SHA-256 hash of the operator account's six-digit PIN. Use Hashcat in
-   SHA-256 mode with a six-digit numeric mask to recover the PIN, then authenticate as
-   `alt.cunningham@arasaka.int` at `/api/auth/login`; the response includes `FLAG{<PIN>}`.
-3. **Restricted dispatch:** the authenticated `GET /api/notes/:id` endpoint looks up files
-   by ID without checking their owner. The seed creates several public files followed by
-   the Board's restricted dispatch about Alt; the dispatch contains `FLAG_IDOR`.
-4. **Directorate access:** tokens are signed using the key recovered from the contingency
-   file, and the authentication service trusts the role in the payload. The
-   `GET /api/admin/flag` endpoint trusts that role and returns `FLAG_ADMIN`.
-5. **Maintenance access:** `GET /api/admin/ssh-access` provides the maintenance host, port,
-   username, and password to an `admin` identity. Connect to the CTF SSH service on port
-   `2222` using the `ssh` client; the `operator` account has `FLAG_SSH` in its home
-   directory.
-6. **Privileged flag:** over SSH, `sudo -l` reveals passwordless permission to run
-   `/usr/bin/vim` as root. The editor can start a root shell inside the SSH container,
-   where `/root/root.txt` contains `FLAG_ROOT`. This intentionally vulnerable permission
-   does not grant access to the Docker host.
+2. **Operator login:** the public account directory reveals
+   `alt.cunningham@arasaka.int`; `Shift protocol` indicates a four-digit numeric PIN. The
+   login endpoint intentionally has no rate limit. A successful login returns Flag 01 and
+   the bearer token. No PIN hash is exposed in the public records.
+3. **IDOR and lore records:** public records use IDs 1–5. Authenticated `GET
+   /api/notes/:id` does not verify ownership, so IDs 6–8 reveal Directorate-owned records.
+   Record 6 is Alt's dispatch containing Flag 02, the SHA-256 hash of the SSH passphrase.
+   Records 7 and 8 are lore-bearing intercepted correspondence about Alt's transfer and
+   the maintenance relay; ID 8 makes clear that the SSH login name is `operator`, not an
+   email, and that participants connect to the challenge host's IP on port `2222`. Both are
+   private and absent from the public listing.
+4. **Credential recovery:** crack the raw SHA-256 digest from Flag 02 using Hashcat mode
+   `1400`, Kali's `rockyou.txt`, and the supplied `wordlists/arasaka.rule`. The lore clue
+   `samurai` is transformed by the rule into `$4mura1`, Flag 03 and the `operator` account's
+   SSH password. This credential path does not require an admin identity or token escalation.
+5. **SSH flags:** connect to the isolated service on port `2222` as SSH user `operator`.
+   `/home/operator/user.txt` contains Flag 04 alongside an in-world transfer log.
+   `sudo -l` reveals the intended passwordless Vim permission;
+   within the disposable SSH container, use it to read `/root/root.txt` for Flag 05. This
+   file includes an in-world Directorate incident log. This does not grant access to the
+   Docker host.
 
 The challenge is intentionally vulnerable and must only be used in the disposable CTF
-environment. Do not reuse credentials, tokens, or techniques outside the authorized
-instance.
+environment. Do not reuse credentials or techniques outside the authorized instance.
 
-## Team verification before submission
+## Verification checklist
 
-- Confirm the login response, IDOR file, admin route, and two SSH files return five distinct
-  values in the expected format.
-- Check that `/api/notes/public` does not list the administrative dispatch.
-- Check that the Directorate endpoint does not return credentials for a role other than
-  `admin`.
-- Confirm the SSH container permits passwordless root execution of `/usr/bin/vim` and has
-  no host volumes, privileged mode, or Docker socket.
-- Test the published `linux/amd64` image and distribution Compose file on a machine without
+- Frontend paths `/password`, `/login`, `/notes`, and `/profile` are discoverable from `/`;
+  random paths return `404` rather than the SPA.
+- Operator login is the only intended four-digit PIN path and produces Flag 01.
+- `/api/notes/public` lists IDs 1–5 only; IDs 6–8 are accessible by ID to the logged-in
+  operator and each record fits the Arasaka/Alt story.
+- Flag 02 is the SHA-256 digest corresponding to the configured SSH password; cracking it
+  produces Flag 03 and authenticates as `operator`.
+- No admin route returns the SSH password or provides an alternate route to Flags 03–05.
+- The SSH container permits passwordless root execution of `/usr/bin/vim` and has no host
+  volumes, privileged mode, or Docker socket.
+- Test the published `linux/amd64` images and distribution Compose file on a machine without
   the source code.
 
 ## Public and private materials
 
 Submit this report and the source files privately through Aprender3. Share only
 [FICHA.md](./FICHA.md), the published images, and the distribution Compose file; do not
-include the solution path or credentials in the public challenge card.
+include the answer key or default credentials in the public challenge card.

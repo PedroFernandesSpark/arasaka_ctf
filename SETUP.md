@@ -11,7 +11,16 @@ docker compose up --build
 
 The application is at `http://localhost:3000`; the isolated challenge SSH service is on port
 `2222`. The operator account is `alt.cunningham@arasaka.int`; the briefing does not provide
-its PIN. Set the PIN with `PIN_CODE`; it must contain exactly six digits.
+its PIN. Set the PIN with `PIN_CODE`; it must contain exactly four digits.
+The enumeratable frontend paths include `/password`, `/login`, `/notes`, and `/profile`.
+`CTF_SSH_PASSWORD` configures the SSH operator password and the IDOR-disclosed SHA-256
+digest; Compose passes the same value to the app and SSH services. The default is `$4mura1`.
+The SSH login name remains `operator` (separate from Alt's email address).
+
+To access the challenge from another computer on the same LAN, use the Docker host's LAN IP
+instead of `localhost` (for example, `http://192.168.1.25:3000`). For route enumeration
+from Kali, set `TARGET` to that IP; `127.0.0.1` refers to Kali itself unless Docker runs on
+the same machine.
 
 Press `Ctrl+C` to stop. To reset the database and files without removing images:
 
@@ -24,9 +33,11 @@ Compose does not mount host directories or the Docker socket inside the SSH cont
 The SSH container intentionally allows `operator` to run Vim as root so participants can
 retrieve the final flag. Keep the challenge isolated and do not expose it beyond the
 authorized lab.
-If participants will not receive the source code, provide `wordlists/nacar-api.txt`
-separately for the route-enumeration stage; the wordlist does not need to be included in
-the images.
+Enumerate the frontend from the web root (`http://TARGET:3000/`) with Kali's
+`/usr/share/wordlists/rockyou.txt`. The frontend includes `/password`, which serves the
+operator login screen and matches a common RockYou entry. The same wordlist is used later to crack
+the SHA-256 SSH credential recovered from the IDOR; that step uses the supplied
+`wordlists/arasaka.rule`.
 
 ## Publish `linux/amd64` images
 
@@ -40,9 +51,10 @@ docker buildx build --platform linux/amd64 -t ghcr.io/your-username/arquivo-fant
 
 Do not publish `.env`, personal keys, or registry credentials.
 
-Before publishing, customize the defaults in `backend/src/seed.ts`,
-`backend/src/admin/admin.controller.ts`, and `ssh/entrypoint.sh`. `.env` is used by the
-development Compose file; its values are not automatically copied into the images.
+Before publishing, customize the defaults in `backend/src/seed.ts` and `ssh/entrypoint.sh`.
+Set `CTF_SSH_PASSWORD` in `.env` to customize the runtime credential; Compose passes the
+same value to both services so the generated hash and SSH credential match. `.env` supplies
+runtime values to Compose; values are not automatically copied into the images.
 
 ## Distribution
 

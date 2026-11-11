@@ -19,8 +19,7 @@ services:
       DB_USER: ctf
       DB_PASSWORD: ctf
       DB_NAME: nacar_archive
-      SSH_PORT: 2222
-      SSH_USERNAME: operator
+      SSH_PASSWORD: ${CTF_SSH_PASSWORD:-$$4mura1}
     depends_on:
       db:
         condition: service_healthy
@@ -29,5 +28,7 @@ services:
 
   ssh:
     image: ghcr.io/your-username/arquivo-fantasma-ssh:1.0
+    environment:
+      SSH_PASSWORD: ${CTF_SSH_PASSWORD:-$$4mura1}
     ports:
       - "2222:22"

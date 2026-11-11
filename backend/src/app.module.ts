@@ -6,8 +6,6 @@ import { dbConfig } from './database.config';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { NotesModule } from './notes/notes.module';
-import { AdminController } from './admin/admin.controller';
-import { BackupController } from './backup.controller';
 
 @Module({
   imports: [
@@ -15,12 +13,12 @@ import { BackupController } from './backup.controller';
     // Serves the compiled frontend (a single origin and URL).
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'client'),
+      renderPath: /^\/(?:|admin|password|login|notes|profile|profile\/\d+)\/?$/,
       exclude: ['/api/(.*)'],
     }),
     AuthModule,
     UsersModule,
     NotesModule,
   ],
-  controllers: [AdminController, BackupController],
 })
 export class AppModule {}

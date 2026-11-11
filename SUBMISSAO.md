@@ -6,11 +6,11 @@
 
 | #   | Stage            | Captured flag | Evidence/summary | Captured? |
 | --- | ---------------- | ------------- | ---------------- | --------- |
-| 1   | Operator PIN     |               |                  | yes / no  |
-| 2   | Board dispatch   |               |                  | yes / no  |
-| 3   | Directorate zone |               |                  | yes / no  |
-| 4   | Maintenance SSH  |               |                  | yes / no  |
-| 5   | Root access      |               |                  | yes / no  |
+| 1   | Operator login   |               |                  | yes / no  |
+| 2   | IDOR hash seal   |               |                  | yes / no  |
+| 3   | SSH passphrase   |               |                  | yes / no  |
+| 4   | SSH user file    |               |                  | yes / no  |
+| 5   | Root file        |               |                  | yes / no  |
 
 ## Debrief
 

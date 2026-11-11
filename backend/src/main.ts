@@ -6,7 +6,7 @@ import { DebugExceptionFilter } from './common/debug-exception.filter';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.setGlobalPrefix('api'); // API under /api; the rest serves the frontend
+  app.setGlobalPrefix('api');
 
   // === Intentionally weak configuration (A02 / A06) ===
   // CORS enabled for any origin, with credentials:

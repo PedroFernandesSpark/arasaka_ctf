@@ -2,7 +2,7 @@
 
 **ARASAKA // restricted network // recovered gig briefing**
 
-The operator account ID is in your hands, but its six-digit PIN is not. Arasaka's subnet is
+The operator account ID is in your hands, but its four-digit PIN is not. Arasaka's subnet is
 leaking public files, a Board dispatch, and a remote maintenance channel. Recover five flags
 and find out where the corporation took Alt Cunningham.
 

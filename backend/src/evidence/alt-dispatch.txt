@@ -9,7 +9,8 @@ They transferred me to Anel Baixo, containment module 12 at station N-09. Cargo 
 below the old market, through the unmarked elevator in sector 09. Wait for the maintenance
 lights to go out twice.
 
-The seal confirming you found this dispatch is {{FLAG_IDOR}}.
+The SHA-256 maintenance credential seal is {{SSH_PASSWORD_HASH_FLAG}}.
+Crack the seal to recover the operator password for SSH relay 2222. The result is Flag 03.
 Do not trust maps connected to the corporate network. Move before shift change.
 
 Alt

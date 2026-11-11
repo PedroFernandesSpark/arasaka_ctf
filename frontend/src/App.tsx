@@ -51,7 +51,7 @@ function Login() {
             <p className="eyebrow">Internal network // monitored access</p>
             <h1>ARASAKA SUBNET</h1>
           </div>
-          <p className="lead">Use the six-digit access code to login.</p>
+          <p className="lead">Use the four-digit access code to login.</p>
           <label className="field-label" htmlFor="email">
             Identifier
           </label>
@@ -71,9 +71,9 @@ function Login() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             type="password"
-            placeholder="six digits"
+            placeholder="four digits"
             inputMode="numeric"
-            maxLength={6}
+            maxLength={4}
           />
           <button className="primary-button" onClick={submit}>
             Start session <span aria-hidden="true">→</span>
@@ -100,11 +100,24 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
+      <Route path="/admin" element={<Login />} />
+      <Route path="/password" element={<Login />} />
+      <Route path="/login" element={<Login />} />
       <Route
         path="/notes"
-        element={getToken() ? <Notes /> : <Navigate to="/" />}
+        element={getToken() ? <Notes /> : <Navigate to="/login" />}
       />
-      <Route path="/profile/:id" element={<Profile />} />
+      <Route
+        path="/profile"
+        element={
+          getToken() ? <Navigate to="/profile/1" /> : <Navigate to="/login" />
+        }
+      />
+      <Route
+        path="/profile/:id"
+        element={getToken() ? <Profile /> : <Navigate to="/login" />}
+      />
+      <Route path="*" element={<Navigate to="/login" />} />
     </Routes>
   );
 }

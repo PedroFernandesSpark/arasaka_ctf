@@ -62,7 +62,7 @@ export default function Notes() {
             className="quiet-button"
             onClick={() => {
               logout();
-              nav("/");
+              nav("/login");
             }}
           >
             End session
@@ -81,7 +81,7 @@ export default function Notes() {
           <p className="lead">
             Public records recovered from Arasaka's internal network.
           </p>
-          <Link className="text-link" to="/profile/1">
+          <Link className="text-link" to="/profile">
             Open operator profile <span aria-hidden="true">↗</span>
           </Link>
         </div>

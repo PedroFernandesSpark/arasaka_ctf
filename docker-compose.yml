@@ -22,12 +22,8 @@ services:
       DB_USER: ctf
       DB_PASSWORD: ctf
       DB_NAME: nacar_archive
-      PIN_CODE: ${PIN_CODE:-518274}
-      FLAG_IDOR: ${FLAG_IDOR:-FLAG{private_dispatch_n09}}
-      FLAG_ADMIN: ${FLAG_ADMIN:-FLAG{arasaka_directorate_access}}
-      SSH_PORT: 2222
-      SSH_USERNAME: operator
-      SSH_PASSWORD: ${SSH_PASSWORD:-ArasakaArchive09}
+      PIN_CODE: ${PIN_CODE:-5182}
+      SSH_PASSWORD: ${CTF_SSH_PASSWORD:-$$4mura1}
     depends_on:
       db:
         condition: service_healthy
@@ -38,7 +34,7 @@ services:
     build: ./ssh
     container_name: arquivo-fantasma-ssh
     environment:
-      SSH_PASSWORD: ${SSH_PASSWORD:-ArasakaArchive09}
+      SSH_PASSWORD: ${CTF_SSH_PASSWORD:-$$4mura1}
       FLAG_SSH: ${FLAG_SSH:-FLAG{cunningham_signal_recovered}}
       FLAG_ROOT: ${FLAG_ROOT:-FLAG{black_wall_root_backup}}
     ports:

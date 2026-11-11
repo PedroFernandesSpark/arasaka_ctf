@@ -1,8 +1,9 @@
 # ARASAKA SUBNET — Cyberpunk CTF
 
 Arasaka's subnet is bleeding public files, a restricted Board dispatch, and a remote
-maintenance channel. You have the operator account ID, but not its six-digit PIN. Recover
-five flags and find out where Arasaka took Alt Cunningham.
+maintenance channel. Enumerate the frontend, recover the operator's four-digit PIN, expose
+the Directorate's records, and crack the SSH credential to find out where Arasaka took Alt
+Cunningham.
 
 This project is an isolated academic lab with five flags in the `FLAG{...}` format.
 Do not expose it to a public network outside the agreed scope.
@@ -18,7 +19,7 @@ docker compose up --build
 ```
 
 Open `http://localhost:3000`. The operator account is
-`alt.cunningham@arasaka.int`; finding its PIN is the first challenge objective.
+`alt.cunningham@arasaka.int`; its four-digit PIN is the first credential to recover.
 
 ## Materials
 
